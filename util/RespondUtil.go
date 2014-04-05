@@ -1,20 +1,16 @@
 package util
 
 import (
+	"bytes"
 	"html/template"
-	"io"
-	"net/http"
 )
 
-func Respond(response http.ResponseWriter, status int, html string) {
-	response.WriteHeader(status)
-	io.WriteString(response, html)
-	response.Header().Set("Content-Type", "text/html")
-	response.Header().Set("Content-Length", string(len(html)))
-}
-
-func RespondTemplate(response http.ResponseWriter, status int, template_file string, data interface{}) {
-	response.WriteHeader(status)
+func RespondTemplate(status int, template_file string, data interface{}) (int, string) {
+	var buf bytes.Buffer 
 	t, _ := template.ParseFiles(template_file)
-	t.Execute(response, data)
+	if err := t.Execute(&buf, data); err != nil {
+		panic(err)
+	}
+	
+	return status, buf.String()
 }
