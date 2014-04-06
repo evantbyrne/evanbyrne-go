@@ -8,10 +8,14 @@ import (
 	"net/http"
 )
 
-func GetAdminEdit(uri martini.Params) (int, string) {
-	params := make(map[string]string)
+func GetAdminEdit(request *http.Request, response http.ResponseWriter, uri martini.Params) (int, string) {
 	var db = new(util.Database)
 	defer db.Close()
+	if !service.ValidUserSession(db, request) {
+		return util.Redirect(request, response, "/admin/login")
+	}
+
+	params := make(map[string]string)
 	if post, success := service.GetPostById(db, uri["id"]); success {
 		params["id"] = uri["id"]
 		for _, meta := range post.Meta {
@@ -27,9 +31,13 @@ func GetAdminEdit(uri martini.Params) (int, string) {
 }
 
 func PostAdminEdit(request *http.Request, response http.ResponseWriter) (int, string) {
-	params := make(map[string]string)
 	var db = new(util.Database)
 	defer db.Close()
+	if !service.ValidUserSession(db, request) {
+		return util.Redirect(request, response, "/admin/login")
+	}
+
+	params := make(map[string]string)
 	request.ParseForm()
 	id := request.PostForm.Get("id")
 	if post, success := service.GetPostById(db, id); success {

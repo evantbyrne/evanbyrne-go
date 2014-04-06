@@ -9,3 +9,16 @@ create table post_meta (
 	key text not null,
 	value text not null
 );
+
+create table "user" (
+	email text not null,
+	password text not null,
+	salt text not null,
+	constraint user__email primary key (email)
+);
+
+create table user_session (
+	secret text not null,
+	user_email text not null,
+	constraint user_session__secret primary key (secret)
+);

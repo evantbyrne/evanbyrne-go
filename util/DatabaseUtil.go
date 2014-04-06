@@ -33,6 +33,8 @@ func (db *Database) Gorp() *gorp.DbMap {
 	dbmap := &gorp.DbMap{ Db: connection, Dialect: gorp.PostgresDialect{} }
 	dbmap.AddTableWithName(dto.Post{}, "post").SetKeys(true, "Id")
 	dbmap.AddTableWithName(dto.PostMeta{}, "post_meta")
+	dbmap.AddTableWithName(dto.User{}, "user")
+	dbmap.AddTableWithName(dto.UserSession{}, "user_session")
 	return dbmap
 }
 

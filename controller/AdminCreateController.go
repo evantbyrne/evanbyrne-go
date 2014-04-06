@@ -7,12 +7,24 @@ import (
 	"net/http"
 )
 
-func GetAdminCreate() (int, string) {
+func GetAdminCreate(request *http.Request, response http.ResponseWriter) (int, string) {
+	var db = new(util.Database)
+	defer db.Close()
+	if !service.ValidUserSession(db, request) {
+		return util.Redirect(request, response, "/admin/login")
+	}
+
 	params := make(map[string]string)
 	return util.RespondTemplate(http.StatusOK, "template/admin/create.html", params)
 }
 
 func PostAdminCreate(request *http.Request, response http.ResponseWriter) (int, string) {
+	var db = new(util.Database)
+	defer db.Close()
+	if !service.ValidUserSession(db, request) {
+		return util.Redirect(request, response, "/admin/login")
+	}
+
 	params := make(map[string]string)
 	request.ParseForm()
 	content := request.PostForm.Get("content")
@@ -30,8 +42,6 @@ func PostAdminCreate(request *http.Request, response http.ResponseWriter) (int, 
 		}
 	}
 
-	var db = new(util.Database)
-	defer db.Close()
 	if err := service.CreatePost(db, post); err != nil {
 		params["content"] = content
 		params["error"] = "Internal server error - " + err.Error()

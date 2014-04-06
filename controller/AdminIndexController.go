@@ -6,9 +6,13 @@ import (
 	"net/http"
 )
 
-func GetAdminIndex() (int, string) {
+func GetAdminIndex(request *http.Request, response http.ResponseWriter) (int, string) {
 	var db = new(util.Database)
 	defer db.Close()
+	if !service.ValidUserSession(db, request) {
+		return util.Redirect(request, response, "/admin/login")
+	}
+
 	posts := service.GetPostListing(db)
 	return util.RespondTemplate(http.StatusOK, "template/admin/index.html", posts)
 }
