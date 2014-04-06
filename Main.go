@@ -9,7 +9,7 @@ import (
 
 func main() {
 	m := martini.Classic()
-	m.Get("/static/**", http.StripPrefix("/static", http.FileServer(http.Dir("./static/"))))
+	m.Get("/static/**", http.StripPrefix("/static", http.FileServer(http.Dir(config.Static))))
 	m.Get("/admin", controller.GetAdminIndex)
 	m.Get("/admin/create", controller.GetAdminCreate)
 	m.Post("/admin/create", controller.PostAdminCreate)
