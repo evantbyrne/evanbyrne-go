@@ -35,3 +35,10 @@ func (db *Database) Gorp() *gorp.DbMap {
 	dbmap.AddTableWithName(dto.PostMeta{}, "post_meta")
 	return dbmap
 }
+
+func (db *Database) Close() {
+	if db.Opened {
+		db.Opened = false
+		db.Connection.Close()
+	}
+}

@@ -1,0 +1,30 @@
+<!DOCTYPE html>
+<html lang="en">
+	<head>
+		<meta charset="utf-8" />
+		<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+		<title>Admin - Evan Byrne</title>
+		<link rel='stylesheet' type='text/css' href='http://fonts.googleapis.com/css?family=Open+Sans:400italic,400,700' />
+		<link rel='stylesheet' type='text/css' href='/static/layout/style.css' />
+		<link rel="shortcut icon" type="image/x-icon" href="/static/layout/favicon.ico" />
+	</head>
+	<body>
+		<div class="wrapper-admin">
+			<h1><a href="/admin">Admin</a></h1>
+
+			<h2>Edit</h2>
+			<p><a href="/admin">&larr; Index</a></p>
+
+			{{if .error}}
+				<p><strong>Error:</strong> {{.error}}</p>
+			{{end}}
+			
+			<form method="post" action="/admin/edit">
+				<input type="hidden" name="id" value="{{.id}}" />
+				<fieldset><textarea name="content">{{if .markdown}}{{.markdown}}{{end}}</textarea></fieldset>
+
+				<fieldset><input type="submit" value="Save" /></fieldset>
+			</form>
+		</div>
+	</body>
+</html>

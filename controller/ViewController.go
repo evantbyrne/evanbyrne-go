@@ -16,7 +16,9 @@ func GetView(request *http.Request) (int, string) {
 		url = "/"
 	}
 
-	if post, success := service.GetPostByUrl(url); success {
+	var db = new(util.Database)
+	defer db.Close()
+	if post, success := service.GetPostByUrl(db, url); success {
 		params["design"] = "default"
 		for _, meta := range post.Meta {
 			if meta.Key == "content" {

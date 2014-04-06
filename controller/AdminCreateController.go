@@ -30,7 +30,9 @@ func PostAdminCreate(request *http.Request, response http.ResponseWriter) (int, 
 		}
 	}
 
-	if err := service.CreatePost(post); err != nil {
+	var db = new(util.Database)
+	defer db.Close()
+	if err := service.CreatePost(db, post); err != nil {
 		params["content"] = content
 		params["error"] = "Internal server error - " + err.Error()
 		return util.RespondTemplate(http.StatusInternalServerError, "template/admin/create.html", params)

@@ -7,6 +7,8 @@ import (
 )
 
 func GetAdminIndex() (int, string) {
-	posts := service.GetPostListing()
+	var db = new(util.Database)
+	defer db.Close()
+	posts := service.GetPostListing(db)
 	return util.RespondTemplate(http.StatusOK, "template/admin/index.html", posts)
 }

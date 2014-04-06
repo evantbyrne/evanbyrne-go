@@ -6,50 +6,46 @@ import (
 	"log"
 )
 
-func GetPostById(id string) (dto.Post, bool) {
-	var db = new(util.Database).Gorp()
+func GetPostById(db *util.Database, id string) (dto.Post, bool) {
 	var res dto.Post;
-	if err := db.SelectOne(&res, "select * from post where id = $1 limit 1", id); err == nil {
-		res.Meta = GetPostMetaByPostId(res.Id)
+	if err := db.Gorp().SelectOne(&res, "select * from post where id = $1 limit 1", id); err == nil {
+		res.Meta = GetPostMetaByPostId(db, res.Id)
 		return res, true
 	}
 
 	return dto.Post{}, false
 }
 
-func GetPostByUrl(url string) (dto.Post, bool) {
-	var db = new(util.Database).Gorp()
+func GetPostByUrl(db *util.Database, url string) (dto.Post, bool) {
 	var res dto.Post;
-	if err := db.SelectOne(&res, "select * from post where url = $1 limit 1", url); err == nil {
-		res.Meta = GetPostMetaByPostId(res.Id)
+	if err := db.Gorp().SelectOne(&res, "select * from post where url = $1 limit 1", url); err == nil {
+		res.Meta = GetPostMetaByPostId(db, res.Id)
 		return res, true
 	}
 
 	return dto.Post{}, false
 }
 
-func GetPostListing() []dto.Post {
-	var db = new(util.Database).Gorp()
+func GetPostListing(db *util.Database) []dto.Post {
 	var res []dto.Post;
-	if _, err := db.Select(&res, "select * from post order by url asc"); err != nil {
+	if _, err := db.Gorp().Select(&res, "select * from post order by url asc"); err != nil {
 		log.Fatal(err)
 	}
 
 	return res
 }
 
-func GetPostMetaByPostId(id int64) []dto.PostMeta {
-	var db = new(util.Database).Gorp()
+func GetPostMetaByPostId(db *util.Database, id int64) []dto.PostMeta {
 	var res []dto.PostMeta;
-	if _, err := db.Select(&res, "select * from post_meta where post_id = $1", id); err != nil {
+	if _, err := db.Gorp().Select(&res, "select * from post_meta where post_id = $1", id); err != nil {
 		log.Fatal(err)
 	}
 
 	return res
 }
 
-func CreatePost(post dto.Post) error {
-	dbmap := new(util.Database).Gorp()
+func CreatePost(db *util.Database, post dto.Post) error {
+	dbmap := db.Gorp()
 	err := dbmap.Insert(&post);
 	if err != nil {
 		return err
@@ -58,6 +54,26 @@ func CreatePost(post dto.Post) error {
 	for _, meta := range post.Meta {
 		meta.PostId = post.Id
 		if err = dbmap.Insert(&meta); err != nil {
+			return err
+		}
+	}
+
+	return nil
+}
+
+func EditPost(db *util.Database, post dto.Post) error {
+	if _, err := db.Connection.Exec("delete from post_meta where post_id = $1", post.Id); err != nil {
+		return err
+	}
+
+	dbmap := db.Gorp()
+	if _, err := dbmap.Update(&post); err != nil {
+		return err
+	}
+
+	for _, meta := range post.Meta {
+		meta.PostId = post.Id
+		if err := dbmap.Insert(&meta); err != nil {
 			return err
 		}
 	}
