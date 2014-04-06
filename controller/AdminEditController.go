@@ -65,8 +65,7 @@ func PostAdminEdit(request *http.Request, response http.ResponseWriter) (int, st
 			return util.RespondTemplate(http.StatusInternalServerError, "template/admin/edit.html", params)
 		}
 
-		http.Redirect(response, request, "/admin", 303)
-		return 303, ""
+		return util.Redirect(request, response, "/admin")
 	}
 
 	return util.RespondTemplate(http.StatusNotFound, "template/404.html", params)
