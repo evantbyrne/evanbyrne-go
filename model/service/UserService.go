@@ -43,6 +43,17 @@ func LoginUser(db *util.Database, response http.ResponseWriter, email string, pa
 	return true
 }
 
+func LogoutUser(db *util.Database, request *http.Request, response http.ResponseWriter) {
+	cookie, err := request.Cookie(config.AuthCookieName)
+	if err == nil {
+		_, err := db.Open().Exec("delete from user_session where secret = $1", cookie.Value)
+		if err == nil {
+			newCookie := http.Cookie{ Name: config.AuthCookieName, Value: "", Path: "/", Expires: time.Now() }
+			http.SetCookie(response, &newCookie)
+		}
+	}
+}
+
 func ValidUserSession(db *util.Database, request *http.Request) bool {
 	secret, err := request.Cookie(config.AuthCookieName)
 	if err == nil {
