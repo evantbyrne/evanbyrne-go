@@ -24,10 +24,11 @@ func GetAdminEdit(request *http.Request, response http.ResponseWriter, uri marti
 			}
 		}
 
-		return util.RespondTemplate(http.StatusOK, "template/admin/edit.html", params)
+		params["title"] = "Edit"
+		return util.RespondTemplate(http.StatusOK, "template/layout/admin.html", "template/admin/edit.html", params)
 	}
 
-	return util.RespondTemplate(http.StatusNotFound, "template/404.html", params)
+	return util.RespondTemplate(http.StatusNotFound, "template/layout/admin.html", "template/404.html", params)
 }
 
 func PostAdminEdit(request *http.Request, response http.ResponseWriter) (int, string) {
@@ -38,6 +39,7 @@ func PostAdminEdit(request *http.Request, response http.ResponseWriter) (int, st
 	}
 
 	params := make(map[string]string)
+	params["title"] = "Edit"
 	request.ParseForm()
 	id := request.PostForm.Get("id")
 	if post, success := service.GetPostById(db, id); success {
@@ -47,7 +49,7 @@ func PostAdminEdit(request *http.Request, response http.ResponseWriter) (int, st
 			params["id"] = id
 			params["markdown"] = content
 			params["error"] = "Input error - URL not specified."
-			return util.RespondTemplate(http.StatusOK, "template/admin/edit.html", params)
+			return util.RespondTemplate(http.StatusOK, "template/layout/admin.html", "template/admin/edit.html", params)
 		}
 
 		post.Url = data["url"]
@@ -62,11 +64,11 @@ func PostAdminEdit(request *http.Request, response http.ResponseWriter) (int, st
 			params["id"] = id
 			params["markdown"] = content
 			params["error"] = "Internal server error - " + err.Error()
-			return util.RespondTemplate(http.StatusInternalServerError, "template/admin/edit.html", params)
+			return util.RespondTemplate(http.StatusInternalServerError, "template/layout/admin.html", "template/admin/edit.html", params)
 		}
 
 		return util.Redirect(request, response, "/admin")
 	}
 
-	return util.RespondTemplate(http.StatusNotFound, "template/404.html", params)
+	return util.RespondTemplate(http.StatusNotFound, "template/layout/admin.html", "template/404.html", params)
 }

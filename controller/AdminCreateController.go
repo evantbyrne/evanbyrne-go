@@ -15,7 +15,8 @@ func GetAdminCreate(request *http.Request, response http.ResponseWriter) (int, s
 	}
 
 	params := make(map[string]string)
-	return util.RespondTemplate(http.StatusOK, "template/admin/create.html", params)
+	params["title"] = "Create"
+	return util.RespondTemplate(http.StatusOK, "template/layout/admin.html", "template/admin/create.html", params)
 }
 
 func PostAdminCreate(request *http.Request, response http.ResponseWriter) (int, string) {
@@ -26,13 +27,14 @@ func PostAdminCreate(request *http.Request, response http.ResponseWriter) (int, 
 	}
 
 	params := make(map[string]string)
+	params["title"] = "Create"
 	request.ParseForm()
 	content := request.PostForm.Get("content")
 	data := util.Markdown(content)
 	if url, ok := data["url"]; !ok || url == "" {
 		params["content"] = content
 		params["error"] = "Input error - URL not specified."
-		return util.RespondTemplate(http.StatusOK, "template/admin/create.html", params)
+		return util.RespondTemplate(http.StatusOK, "template/layout/admin.html", "template/admin/create.html", params)
 	}
 
 	post := dto.Post{ Url: string(data["url"]) }
@@ -45,7 +47,7 @@ func PostAdminCreate(request *http.Request, response http.ResponseWriter) (int, 
 	if err := service.CreatePost(db, post); err != nil {
 		params["content"] = content
 		params["error"] = "Internal server error - " + err.Error()
-		return util.RespondTemplate(http.StatusInternalServerError, "template/admin/create.html", params)
+		return util.RespondTemplate(http.StatusInternalServerError, "template/layout/admin.html", "template/admin/create.html", params)
 	}
 
 	return util.Redirect(request, response, "/admin")

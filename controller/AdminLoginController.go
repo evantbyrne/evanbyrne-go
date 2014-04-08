@@ -8,7 +8,8 @@ import (
 
 func GetAdminLogin() (int, string) {
 	params := make(map[string]string)
-	return util.RespondTemplate(http.StatusOK, "template/admin/login.html", params)
+	params["title"] = "Log In"
+	return util.RespondTemplate(http.StatusOK, "template/layout/admin.html", "template/admin/login.html", params)
 }
 
 func PostAdminLogin(request *http.Request, response http.ResponseWriter) (int, string) {
@@ -24,7 +25,8 @@ func PostAdminLogin(request *http.Request, response http.ResponseWriter) (int, s
 	}
 
 	params := make(map[string]string)
+	params["title"] = "Log In"
 	params["email"] = email
 	params["error"] = "Input error - Invalid login credentials."
-	return util.RespondTemplate(http.StatusOK, "template/admin/login.html", params)
+	return util.RespondTemplate(http.StatusOK, "template/layout/admin.html", "template/admin/login.html", params)
 }

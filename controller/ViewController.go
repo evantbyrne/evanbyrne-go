@@ -19,6 +19,7 @@ func GetView(request *http.Request) (int, string) {
 	var db = new(util.Database)
 	defer db.Close()
 	if post, success := service.GetPostByUrl(db, url); success {
+		params["layout"] = "default"
 		params["design"] = "default"
 		for _, meta := range post.Meta {
 			if meta.Key == "content" {
@@ -28,10 +29,11 @@ func GetView(request *http.Request) (int, string) {
 			}
 		}
 
+		layout := fmt.Sprintf("template/layout/%s.html", params["layout"])
 		template := fmt.Sprintf("template/%s.html", params["design"])
-		return util.RespondTemplate(http.StatusOK, template, params)
+		return util.RespondTemplate(http.StatusOK, layout, template, params)
 	}
 
 	params["url"] = url
-	return util.RespondTemplate(http.StatusNotFound, "template/404.html", params)
+	return util.RespondTemplate(http.StatusNotFound, "template/layout/default.html", "template/404.html", params)
 }

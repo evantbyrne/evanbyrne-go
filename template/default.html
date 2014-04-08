@@ -1,24 +1,8 @@
-<!DOCTYPE html>
-<html lang="en">
-	<head>
-		<meta charset="utf-8" />
-		<meta name="viewport" content="width=device-width, initial-scale=1.0" />
-		<title>{{.title}} - Evan Byrne</title>
-		<link rel='stylesheet' type='text/css' href='http://fonts.googleapis.com/css?family=Open+Sans:400italic,400,700' />
-		<link rel='stylesheet' type='text/css' href='/static/layout/style.css' />
-		<link rel="shortcut icon" type="image/x-icon" href="/static/layout/favicon.ico" />
-	</head>
-	<body>
-		<div class="wrapper">
-			<img class="profile" src="/static/layout/evan.jpg" alt="Evan Byrne" />
-			<h1><a href="/">Evan Byrne</a></h1>
+{{define "main"}}
+	<h2>{{.title}}</h2>
+	{{if .date}}
+		<p>{{.date}}</p>
+	{{end}}
 
-			<h2>{{.title}}</h2>
-			{{if .date}}
-				<p>{{.date}}</p>
-			{{end}}
-
-			{{.content}}
-		</div>
-	</body>
-</html>
+	{{.content}}
+{{end}}

@@ -11,9 +11,9 @@ func Redirect(request *http.Request, response http.ResponseWriter, url string) (
 	return 303, ""
 }
 
-func RespondTemplate(status int, template_file string, data interface{}) (int, string) {
+func RespondTemplate(status int, templateLayoutFile string, templateFile string, data interface{}) (int, string) {
 	var buf bytes.Buffer 
-	t, _ := template.ParseFiles(template_file)
+	t, _ := template.ParseFiles(templateLayoutFile, templateFile)
 	if err := t.Execute(&buf, data); err != nil {
 		panic(err)
 	}
