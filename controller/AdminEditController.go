@@ -28,7 +28,7 @@ func GetAdminEdit(request *http.Request, response http.ResponseWriter, uri marti
 		return util.RespondTemplate(http.StatusOK, "template/layout/admin.html", "template/admin/edit.html", params)
 	}
 
-	return util.RespondTemplate(http.StatusNotFound, "template/layout/admin.html", "template/404.html", params)
+	return PageNotFound(request, response)
 }
 
 func PostAdminEdit(request *http.Request, response http.ResponseWriter) (int, string) {
@@ -70,5 +70,5 @@ func PostAdminEdit(request *http.Request, response http.ResponseWriter) (int, st
 		return util.Redirect(request, response, "/admin")
 	}
 
-	return util.RespondTemplate(http.StatusNotFound, "template/layout/admin.html", "template/404.html", params)
+	return PageNotFound(request, response)
 }

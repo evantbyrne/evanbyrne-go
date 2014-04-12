@@ -4,6 +4,7 @@ import (
 	"bytes"
 	"html/template"
 	"net/http"
+	"strings"
 )
 
 func Redirect(request *http.Request, response http.ResponseWriter, url string) (int, string) {
@@ -19,4 +20,13 @@ func RespondTemplate(status int, templateLayoutFile string, templateFile string,
 	}
 	
 	return status, buf.String()
+}
+
+func TrimUrl(request *http.Request) string {
+	url := strings.TrimRight(request.URL.Path, "/")
+	if url == "" {
+		return "/"
+	}
+	
+	return url
 }

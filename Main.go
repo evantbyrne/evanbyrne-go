@@ -19,5 +19,6 @@ func main() {
 	m.Post("/admin/login", controller.PostAdminLogin)
 	m.Post("/admin/logout", controller.PostAdminLogout)
 	m.Get("**", controller.GetView)
+	m.Post("**", controller.PageNotFound)
 	http.ListenAndServe(":" + config.HttpPort, m)
 }

@@ -6,16 +6,11 @@ import (
 	"github.com/evantbyrne/evanbyrne-go/util"
 	"html/template"
 	"net/http"
-	"strings"
 )
 
-func GetView(request *http.Request) (int, string) {
+func GetView(request *http.Request, response http.ResponseWriter) (int, string) {
 	params := make(map[string]interface{})
-	url := strings.TrimRight(request.URL.Path, "/")
-	if url == "" {
-		url = "/"
-	}
-
+	url := util.TrimUrl(request)
 	var db = new(util.Database)
 	defer db.Close()
 	if post, success := service.GetPostByUrl(db, url); success {
@@ -34,6 +29,5 @@ func GetView(request *http.Request) (int, string) {
 		return util.RespondTemplate(http.StatusOK, layout, template, params)
 	}
 
-	params["url"] = url
-	return util.RespondTemplate(http.StatusNotFound, "template/layout/default.html", "template/404.html", params)
+	return PageNotFound(request, response)
 }
