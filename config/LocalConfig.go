@@ -11,4 +11,5 @@ const HashSalt = "my$supe^rs"
 const HashSaltLength = 10
 const HttpPort = "8001"
 const HttpUrl = "http://localhost:8001/"
+const PostsPerPage = 5
 const Static = "./static/"

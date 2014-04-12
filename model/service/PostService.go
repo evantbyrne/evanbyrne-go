@@ -1,6 +1,7 @@
 package service
 
 import (
+	"github.com/evantbyrne/evanbyrne-go/config"
 	"github.com/evantbyrne/evanbyrne-go/model/dto"
 	"github.com/evantbyrne/evanbyrne-go/util"
 	"log"
@@ -62,10 +63,10 @@ func GetPostListingHome(db *util.Database) []dto.PostBlogResult {
 	sql := "select p.id id, p.url url, m.value title from post p" + //
 			" join post_meta m on m.post_id = p.id" + //
 			" where url like '/blog/%' and m.key = 'title'" + //
-			" order by id desc limit 5"
+			" order by id desc limit $1"
 
 	var res []dto.PostBlogResult;
-	if _, err := db.Gorp().Select(&res, sql); err != nil {
+	if _, err := db.Gorp().Select(&res, sql, config.PostsPerPage); err != nil {
 		log.Fatal(err)
 	}
 
