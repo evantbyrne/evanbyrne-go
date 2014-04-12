@@ -2,16 +2,10 @@
 	{{.content}}
 
 	{{if .posts}}
-		<h2>Recent Writings</h2>
 		<ul>
 			{{range .posts}}
 				<li><a href="{{.Url}}">{{.Title}}</a></li>
 			{{end}}
-			{{if .more_posts}}
-				<li class="no-bullet"><a href="/blog">More &rarr;</a></li>
-			{{end}}
 		</ul>
 	{{end}}
-
-	{{.content_2}}
 {{end}}

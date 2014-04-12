@@ -20,6 +20,7 @@ func main() {
 	m.Get("/admin/login", controller.GetAdminLogin)
 	m.Post("/admin/login", controller.PostAdminLogin)
 	m.Post("/admin/logout", controller.PostAdminLogout)
+	m.Get("/blog", controller.GetBlog)
 	m.Get("/", controller.GetHome)
 	m.Get("**", controller.GetView)
 	m.Post("**", controller.PageNotFound)

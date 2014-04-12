@@ -6,16 +6,12 @@ import (
 	"net/http"
 )
 
-func GetHome(request *http.Request, response http.ResponseWriter) (int, string) {
+func GetBlog(request *http.Request, response http.ResponseWriter) (int, string) {
 	var db = new(util.Database)
 	defer db.Close()
-	if post, success := service.GetPostByUrl(db, "/"); success {
+	if post, success := service.GetPostByUrl(db, "/blog"); success {
 		layout, template, params := GetViewParams(post)
-		params["posts"] = service.GetPostListingHome(db)
-		if service.GetPostCount(db) > 5 {
-			params["more_posts"] = true
-		}
-
+		params["posts"] = service.GetPostListingBlog(db)
 		return util.RespondTemplate(http.StatusOK, layout, template, params)
 	}
 

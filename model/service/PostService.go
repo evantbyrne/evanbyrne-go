@@ -26,9 +26,32 @@ func GetPostByUrl(db *util.Database, url string) (dto.Post, bool) {
 	return dto.Post{}, false
 }
 
+func GetPostCount(db *util.Database) int64 {
+	count, err := db.Gorp().SelectInt("select count(1) from post where url like '/blog/%'")
+	if err != nil {
+		log.Fatal(err)
+	}
+
+	return count
+}
+
 func GetPostListing(db *util.Database) []dto.Post {
 	var res []dto.Post;
 	if _, err := db.Gorp().Select(&res, "select * from post order by url asc"); err != nil {
+		log.Fatal(err)
+	}
+
+	return res
+}
+
+func GetPostListingBlog(db *util.Database) []dto.PostBlogResult {
+	sql := "select p.id id, p.url url, m.value title from post p" + //
+			" join post_meta m on m.post_id = p.id" + //
+			" where url like '/blog/%' and m.key = 'title'" + //
+			" order by id desc"
+
+	var res []dto.PostBlogResult;
+	if _, err := db.Gorp().Select(&res, sql); err != nil {
 		log.Fatal(err)
 	}
 
