@@ -1,6 +1,7 @@
 package util
 
 import (
+	"fmt"
 	"github.com/russross/blackfriday"
 	"strings"
 )
@@ -26,6 +27,18 @@ func Markdown(markdown string) map[string]string {
 		params["content"] = strings.Replace(params["content"], "<pre><code>", "<pre>", -1)
 		params["content"] = strings.Replace(params["content"], "</code></pre>", "</pre>", -1)
 		params["content"] = strings.Replace(params["content"], "\n</pre>", "</pre>", -1)
+		
+		contentParts := strings.Split(params["content"], "<!--split-->")
+		if len(contentParts) > 1 {
+			params["content"] = contentParts[0]
+			contentNumber := 2
+			for i, contentPart := range contentParts {
+				if i > 0 {
+					params[fmt.Sprintf("content_%d", contentNumber)] = contentPart
+					contentNumber += 1
+				}
+			}
+		}
 	}
 
 	return params

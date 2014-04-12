@@ -7,6 +7,7 @@ import (
 	"github.com/evantbyrne/evanbyrne-go/util"
 	"html/template"
 	"net/http"
+	"strings"
 )
 
 func GetView(request *http.Request, response http.ResponseWriter) (int, string) {
@@ -26,8 +27,8 @@ func GetViewParams(post dto.Post) (string, string, map[string]interface{}) {
 	params["layout"] = "default"
 	params["design"] = "default"
 	for _, meta := range post.Meta {
-		if meta.Key == "content" {
-			params["content"] = template.HTML(meta.Value)
+		if meta.Key == "content" || strings.HasPrefix(meta.Key, "content_") {
+			params[meta.Key] = template.HTML(meta.Value)
 		} else {
 			params[meta.Key] = meta.Value
 		}
