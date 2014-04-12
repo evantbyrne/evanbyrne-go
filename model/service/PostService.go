@@ -35,6 +35,20 @@ func GetPostListing(db *util.Database) []dto.Post {
 	return res
 }
 
+func GetPostListingHome(db *util.Database) []dto.PostBlogResult {
+	sql := "select p.id id, p.url url, m.value title from post p" + //
+			" join post_meta m on m.post_id = p.id" + //
+			" where url like '/blog/%' and m.key = 'title'" + //
+			" order by id desc limit 5"
+
+	var res []dto.PostBlogResult;
+	if _, err := db.Gorp().Select(&res, sql); err != nil {
+		log.Fatal(err)
+	}
+
+	return res
+}
+
 func GetPostMetaByPostId(db *util.Database, id int64) []dto.PostMeta {
 	var res []dto.PostMeta;
 	if _, err := db.Gorp().Select(&res, "select * from post_meta where post_id = $1", id); err != nil {
