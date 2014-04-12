@@ -80,3 +80,15 @@ func EditPost(db *util.Database, post dto.Post) error {
 
 	return nil
 }
+
+func DeletePostById(db *util.Database, id string) error {
+	if _, err := db.Connection.Exec("delete from post where id = $1", id); err != nil {
+		return err
+	}
+
+	if _, err := db.Connection.Exec("delete from post_meta where post_id = $1", id); err != nil {
+		return err
+	}
+
+	return nil
+}

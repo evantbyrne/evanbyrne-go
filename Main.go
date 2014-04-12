@@ -13,6 +13,8 @@ func main() {
 	m.Get("/admin", controller.GetAdminIndex)
 	m.Get("/admin/create", controller.GetAdminCreate)
 	m.Post("/admin/create", controller.PostAdminCreate)
+	m.Get("/admin/delete/:id", controller.GetAdminDelete)
+	m.Post("/admin/delete", controller.PostAdminDelete)
 	m.Get("/admin/edit/:id", controller.GetAdminEdit)
 	m.Post("/admin/edit", controller.PostAdminEdit)
 	m.Get("/admin/login", controller.GetAdminLogin)
