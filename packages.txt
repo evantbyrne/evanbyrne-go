@@ -1,0 +1,5 @@
+code.google.com/p/go.crypto/bcrypt
+github.com/coopernurse/gorp
+github.com/go-martini/martini
+github.com/lib/pq
+github.com/russross/blackfriday
