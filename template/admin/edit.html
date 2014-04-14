@@ -1,6 +1,6 @@
 {{define "main"}}
 	<h2>Edit</h2>
-	<p><a href="/admin">&larr; Index</a></p>
+	<p><a href="/admin">← Index</a></p>
 
 	{{if .error}}
 		<p><strong>Error:</strong> {{.error}}</p>
@@ -13,5 +13,5 @@
 		<fieldset><input type="submit" value="Save" /></fieldset>
 	</form>
 
-	<p><a href="/admin/delete/{{.id}}">&times; Delete</a></p>
+	<p><a href="/admin/delete/{{.id}}">× Delete</a></p>
 {{end}}

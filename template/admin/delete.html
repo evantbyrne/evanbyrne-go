@@ -1,11 +1,11 @@
 {{define "main"}}
 	<h2>Delete</h2>
-	<p><a href="/admin/edit/{{.id}}">&larr; Edit</a></p>
+	<p><a href="/admin/edit/{{.id}}">← Edit</a></p>
 
 	<p>Should <a href="{{.url}}">{{.url}}</a> be deleted?</p>
 	
 	<form method="post" action="/admin/delete">
 		<input type="hidden" name="id" value="{{.id}}" />
-		<fieldset><input type="submit" value="&times; Delete" /></fieldset>
+		<fieldset><input type="submit" value="× Delete" /></fieldset>
 	</form>
 {{end}}

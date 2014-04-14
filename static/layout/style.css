@@ -1,4 +1,4 @@
-html, body, h1, h2, h3, p, blockquote, div, span, img, table, thead, tbody, tr, th, td, ul, ol, li, code, fieldset, input, textarea {
+html, body, h1, h2, h3, p, blockquote, div, span, img, table, thead, tbody, tr, th, td, ul, ol, li, code, fieldset, input, textarea, footer {
 	border: none;
 	color: #000000;
 	font-family: 'Open Sans', sans-serif;
@@ -76,7 +76,7 @@ h2 {
 	margin-top: 1.75rem;
 }
 
-h1, p, ul, ol, pre, img, fieldset {
+h1, p, ul, ol, pre, img, fieldset, footer {
 	margin-bottom: 28px;
 	margin-bottom: 1.75rem;
 }
@@ -182,6 +182,12 @@ input[type=submit]:active, input[type=submit]:focus {
 	outline: none;
 }
 
+footer {
+	display: block;
+	font-size: 14px;
+	font-size: 0.875rem;
+}
+
 @media all and (max-width: 660px) {
 	div.wrapper {
 		margin: 0 20px;
@@ -226,11 +232,7 @@ input[type=submit]:active, input[type=submit]:focus {
 		width: auto;
 	}
 
-	img.profile {
-		display: none;
-	}
-
-	.no-print {
+	img.profile, footer, .no-print {
 		display: none;
 	}
 }
