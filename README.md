@@ -1,4 +1,4 @@
-Go CMS for the latest iteration of my personal website.
+Go CMS for the latest iteration of my [personal website](http://evanbyrne.com).
 
 ## The MIT License (MIT)
 
