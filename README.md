@@ -1,6 +1,6 @@
 Go CMS for the latest iteration of my [personal website](http://evanbyrne.com).
 
-## The MIT License (MIT)
+## The MIT License (MIT):
 
 Copyright (c) 2014 Evan Byrne
 
